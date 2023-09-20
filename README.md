@@ -5,4 +5,5 @@
 - The shell is both an interactive command language and a scripting language
 - Usage: shell
 
-*Note:* This shell behaves like /bin/sh in Unix-shell
+## Note:
+This shell behaves like "/bin/sh" in Unix-shell
