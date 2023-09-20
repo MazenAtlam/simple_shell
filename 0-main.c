@@ -12,12 +12,11 @@
  */
 int main(int argc, char *argv[], char *envp[])
 {
-	char *av[MAX];
-	char *cmdline;
-	char *buff = NULL;
+	char *cmd[MAX], *cmdline, *buff = NULL;
 	size_t n = 0;
 	unsigned int i = 0, count = 0;
-	bcmd_t b_cmd[] = { {"exit", exit_cmd}, {"cd", cd_cmd}, {NULL, NULL} };
+	bcmd_t b_cmd[] = { {"exit", exit_cmd}, {"cd", exit_cmd},
+			{"env", env_cmd}, {NULL, NULL} };
 
 	if (argc != ARGSNUM)
 	{
@@ -27,22 +26,24 @@ int main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		fflush(stdin);
+		write(STDOUT_FILENO, "$ ", 2 * sizeof(char));
 		if (_getline(&buff, &n, stdin) == -1)
 			break;
+		buff[_strlen(buff) - 1] = '\0';
 		cmdline = _strtok(buff, "#");
 		if (cmdline != NULL)
 		{
 			count++;
-			av[0] = _strtok(cmdline, " ");
+			cmd[0] = _strtok(cmdline, " ");
 			i = 0;
-			while (av[i++] != NULL)
-				av[i] = _strtok(NULL, " ");
+			while (cmd[i++] != NULL)
+				cmd[i] = _strtok(NULL, " ");
 			for (i = 0; b_cmd[i].c != NULL; i++)
 			{
-				if (_strcmp(av[0], b_cmd[i].c) == 0)
-					b_cmd[i].func(av[1], argv[0], buff, count);
+				if (_strcmp(cmd[0], b_cmd[i].c) == 0)
+					b_cmd[i].func(cmd, argv[0], buff, count, envp);
 			}
-			exec_cmd(av, envp, count);
+
 		}
 	}
 	write(STDOUT_FILENO, "\n", sizeof(char));

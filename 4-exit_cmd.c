@@ -2,25 +2,27 @@
 
 /**
  * exit_cmd - A function that executes the built-in command exit
- * @s_status: The status in string type
+ * @cmd: A pointer to an array of tokens which containing the command line in
  * @sh: The shell name
  * @buff: The buffer allocated to contain the command line
  * @count: The number of errors counted from executing the shell
+ * @envp: An array of pointers to the environment variables
  *
  * Return: Nothing
  */
-void exit_cmd(char *s_status, char *sh, char *buff, unsigned int count)
+void exit_cmd(char *cmd[], char *sh, char *buff, unsigned int count,
+		char *envp[] __attribute__((unused)))
 {
 	char *counter;
 	unsigned int status;
 
-	if (s_status == NULL)
+	if (cmd[1] == NULL)
 	{
 		free(buff);
 
 		exit(0);
 	}
-	status = _atoi(s_status);
+	status = _atoi(cmd[1]);
 	if (status <= INT_MAX)
 	{
 		if (status != 0)
@@ -31,7 +33,7 @@ void exit_cmd(char *s_status, char *sh, char *buff, unsigned int count)
 
 			exit(status);
 		}
-		if (s_status[0] == '0')
+		if (cmd[1][0] == '0')
 		{
 			free(buff);
 
@@ -43,7 +45,7 @@ void exit_cmd(char *s_status, char *sh, char *buff, unsigned int count)
 	write(STDERR_FILENO, ": ", 2 * sizeof(char));
 	write(STDERR_FILENO, counter, _strlen(counter) * sizeof(char));
 	write(STDERR_FILENO, ": exit: Illegal number: ", 24 * sizeof(char));
-	write(STDERR_FILENO, s_status, _strlen(s_status) * sizeof(char));
+	write(STDERR_FILENO, cmd[1], _strlen(cmd[1]) * sizeof(char));
 	write(STDERR_FILENO, "\n", sizeof(char));
 	free(counter);
 }

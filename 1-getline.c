@@ -10,12 +10,5 @@
  */
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
-	ssize_t length;
-
-	printf("$ ");
-	length = getline(lineptr, n, stream);
-	if (length != -1)
-		*((*lineptr) + _strlen(*lineptr) - 1) = '\0';
-
-	return (length);
+	return (getline(lineptr, n, stream));
 }

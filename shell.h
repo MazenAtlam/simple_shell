@@ -35,8 +35,12 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 unsigned int num_length(unsigned int num);
 unsigned int _atoi(char *str);
 char *_itoa(unsigned int num);
-void exec_cmd(char *cmd[], char *envp[], unsigned int count);
-void exit_cmd(char *s_status, char *sh, char *buff, unsigned int count);
-void cd_cmd(char *s_status, char *sh, char *buff, unsigned int count);
+void exec_cmd(char *cmd[], unsigned int count, char *envp[]);
+void exit_cmd(char *cmd[], char *sh, char *buff, unsigned int count,
+		char *envp[]);
+void cd_cmd(char *cmd[], char *sh, char *buff, unsigned int count,
+		char *envp[]);
+void env_cmd(char *cmd[], char *sh, char *buff, unsigned int count,
+		char *envp[]);
 
 #endif /*_shell.h_*/
