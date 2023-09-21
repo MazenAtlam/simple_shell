@@ -11,19 +11,18 @@
  * Return: 0 (success), non-zero value (failure)
  */
 int main(int argc, char *argv[], char *envp[])
-{
-	char *cmd[MAX], *cmdline, *buff;
+{	char *cmd[MAX], *cmdline, *buff;
 	size_t n = 50;
 	unsigned int i = 0, count = 0, executed = 0;
-	bcmd_t b_cmd[] = { {"exit", exit_cmd}, {"cd", exit_cmd},
-		{"env", env_cmd}, {NULL, NULL} };
+	bcmd_t b_cmd[] = { {"exit", exit_cmd},	{"env", env_cmd}, {NULL, NULL} };
 
 	if (argc != ARGSNUM)
 	{	write(STDERR_FILENO, "Usage: simple_shell\n", 20 * sizeof(char));
 		return (127);	}
 	while (1)
 	{	fflush(stdin);
-		write(STDOUT_FILENO, "$ ", 2 * sizeof(char));
+		if (isatty(STDIN_FILENO) == 1)
+			write(STDOUT_FILENO, "$ ", 2 * sizeof(char));
 		buff = malloc(50 * sizeof(char));
 		if (buff == NULL)
 		{	write(STDERR_FILENO, argv[0], _strlen(argv[0]) * sizeof(char));
@@ -48,7 +47,7 @@ int main(int argc, char *argv[], char *envp[])
 					executed = 1;	}	}
 			if (!executed)
 				check_cmd(cmd, argv[0], buff, count, envp);	}	}
-	write(STDOUT_FILENO, "\n", sizeof(char));
+	if (isatty(STDIN_FILENO) == 1)
+		write(STDOUT_FILENO, "\n", sizeof(char));
 	free(buff);
-	return (0);
-}
+	return (0);	}
