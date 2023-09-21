@@ -17,11 +17,11 @@ void env_cmd(char *cmd[], char *sh, char *buff, unsigned int count,
 
 	(void) cmd;
 	(void) sh;
-	(void) buff;
 	(void) count;
 	for (i = 0; envp[i] != NULL; i++)
 	{
 		write(STDOUT_FILENO, envp[i], _strlen(envp[i]) * sizeof(char));
 		write(STDOUT_FILENO, "\n", sizeof(char));
 	}
+	free(buff);
 }

@@ -15,7 +15,7 @@ int _strcmp(char *s1, char *s2)
 
 	if (s1 == NULL || s2 == NULL)
 	{
-		printf("Invalid arguments\n");
+		write(STDERR_FILENO, "Invalid arguments\n", 18 * sizeof(char));
 
 		exit(99);
 	}
@@ -46,7 +46,7 @@ size_t _strlen(char *str)
 
 	if (str == NULL)
 	{
-		printf("Invalid string: NULL\n");
+		write(STDERR_FILENO, "Invalid string: NULL\n", 21 * sizeof(char));
 
 		exit(98);
 	}
@@ -67,4 +67,58 @@ size_t _strlen(char *str)
 char *_strtok(char *str, char *delim)
 {
 	return (strtok(str, delim));
+}
+
+/**
+ * _strcpy - A function that copies a string into another one
+ * @dest: The string that is copied into
+ * @src: The string that is copied from
+ *
+ * Return: A pointer to the new string
+ */
+char *_strcpy(char *dest, char *src)
+{
+	size_t i, src_len = _strlen(src);
+
+	if (dest == NULL || src == NULL)
+	{
+		write(STDERR_FILENO, "Invalid arguments\n", 18 * sizeof(char));
+
+		exit(100);
+	}
+	for (i = 0; i < src_len; i++)
+		dest[i] = src[i];
+	dest[i] = '\0';
+
+	return (dest);
+}
+
+/**
+ * _strcat - A function that appends a string to another one
+ * @dest: The string that is appended into
+ * @src: The string that is appended from
+ *
+ * Return: A pointer to the new string
+ */
+char *_strcat(char *dest, char *src)
+{
+	size_t i, j, dest_len, src_len;
+
+	if (dest == NULL || src == NULL)
+	{
+		write(STDERR_FILENO, "Invalid arguments\n", 18 * sizeof(char));
+
+		exit(101);
+	}
+	dest_len = _strlen(dest);
+	src_len = _strlen(src);
+	if (src_len == 0)
+		dest[dest_len] = '\0';
+	else
+	{
+		for (i = dest_len, j = 0; j < src_len; i++, j++)
+			dest[i] = src[j];
+	}
+
+	return (dest);
 }

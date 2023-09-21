@@ -31,11 +31,16 @@ typedef struct built_in_cmd
 char *_strtok(char *str, char *delim);
 size_t _strlen(char *s);
 int _strcmp(char *s1, char *s2);
+char *_strcat(char *dest, char *src);
+char *_strcpy(char *dest, char *src);
+char *_strdup(char *str);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 unsigned int num_length(unsigned int num);
 unsigned int _atoi(char *str);
 char *_itoa(unsigned int num);
-void exec_cmd(char *cmd[], unsigned int count, char *envp[]);
+void check_cmd(char *cmd[], char *sh, char *buff, unsigned int count,
+		char *envp[]);
+int exec_cmd(char *cmd[], char *sh, unsigned int count, char *envp[]);
 void exit_cmd(char *cmd[], char *sh, char *buff, unsigned int count,
 		char *envp[]);
 void cd_cmd(char *cmd[], char *sh, char *buff, unsigned int count,

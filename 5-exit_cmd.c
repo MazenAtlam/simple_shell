@@ -11,17 +11,19 @@
  * Return: Nothing
  */
 void exit_cmd(char *cmd[], char *sh, char *buff, unsigned int count,
-		char *envp[] __attribute__((unused)))
+		char *envp[])
 {
 	char *counter;
 	unsigned int status;
 
+	(void) envp;
 	if (cmd[1] == NULL)
 	{
 		free(buff);
 
 		exit(0);
 	}
+
 	status = _atoi(cmd[1]);
 	if (status <= INT_MAX)
 	{
@@ -48,4 +50,5 @@ void exit_cmd(char *cmd[], char *sh, char *buff, unsigned int count,
 	write(STDERR_FILENO, cmd[1], _strlen(cmd[1]) * sizeof(char));
 	write(STDERR_FILENO, "\n", sizeof(char));
 	free(counter);
+	free(buff);
 }
